@@ -1,3 +1,4 @@
+// Requirements
 const fileInput = document.querySelector("#imageFileInput");
 const canvas = document.querySelector("#canvas");
 const canvasCtx = canvas.getContext("2d");
@@ -5,7 +6,6 @@ const brightnessInput = document.querySelector("#brightness");
 const saturationInput = document.querySelector("#saturation");
 const blurInput = document.querySelector("#blur");
 const inversionInput = document.querySelector("#inversion");
-
 const settings = {};
 let image = null;
 
@@ -15,7 +15,6 @@ function resetSettings() {
   settings.saturation = "100";
   settings.blur = "0";
   settings.inversion = "0";
-
   brightnessInput.value = settings.brightness;
   saturationInput.value = settings.saturation;
   blurInput.value = settings.blur;
@@ -71,10 +70,15 @@ fileInput.addEventListener("change", () => {
 
 // Upload Image
 function upload() {
+  // Gets Image Details
   var nameInput = document.getElementById("imageName").value;
+  
+  // Ensures image has a name
   if (nameInput == "") {
     nameInput = "untitled";
   };
+  
+  // Sends Image details to client - returns S3 URL
   try {
     const dataURL = canvas.toDataURL("image/jpeg");
     fetch(`/images/add/${nameInput}`, {
@@ -88,6 +92,8 @@ function upload() {
     })
       .then((response) => response.json())
       .then((data) => {
+      
+        // Replaces the first image placement with uploaded image
         const url = data.imageURL;
         document.getElementById("image1").src=url;
       });
@@ -97,7 +103,7 @@ function upload() {
   }
 }
 
-// Download Image
+// Download Image/s
 async function getImage(position) {
   // Make a request to send image to express and get zip
   url = document.getElementById("image" + position).src;
@@ -110,7 +116,7 @@ async function getImage(position) {
       image: url,
     }),
   })
-    //automatically download zip
+    // Automatically download zip
     .then((response) => response.blob())
     .then((blob) => {
       const url = window.URL.createObjectURL(blob);
@@ -124,7 +130,7 @@ async function getImage(position) {
   });
 }
 
-// Gets Top 6 Redis Images for initial display
+// Gets Top 6 Redis Images for initial display - on app opening
 (async () => {
   try {
     console.log(">> Top 6 Redis Images Collected: ");
@@ -133,9 +139,11 @@ async function getImage(position) {
       .then((imageList) => {
         console.log(imageList);
         
+        // Sets values for image display
         for (let i = 0; i < imageList.length; i++) {
           const imgName = imageList[i].nameKey;
           const imgSrc = imageList[i].urlValue;
+          
           // Replaces src of set image location with an S3 URL
           const imageID = "image" + (i+1);
           document.getElementById(imageID).src=imgSrc;
