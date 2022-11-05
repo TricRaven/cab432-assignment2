@@ -9,7 +9,6 @@ const imagesRouter = require('./routes/images');
 // Middleware
 app.use("/public", express.static('./public/'));
 app.use(express.json({limit: '50mb'}));
-app.use(responseTime());
 app.use("/images", imagesRouter);
 app.use(express.urlencoded({limit: '50mb', extended: true }));
 
