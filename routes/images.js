@@ -1,3 +1,4 @@
+// Requirements
 const AWS = require('aws-sdk');
 const express = require('express');
 const router = express.Router();
@@ -26,8 +27,8 @@ const redisClient = redis.createClient();
 router.get('/collect', async (req, res) => {    
     // Get first 6 Entries from Redis
     var images = [];
-
     const keyList = await redisClient.keys('*');
+  
     for (let i = 0; i < 6; i++) {
         var imageGroup = {};
         const value = await redisClient.get(keyList[i]);
@@ -57,6 +58,7 @@ router.post('/add/:name', async (req, res) => {
     const imageURL = await getImageURL(imageName);
     await redis_upload(imageName, imageURL);
 
+    // Returns Image URL for Display placement
     res.send({imageURL});
 });
 
@@ -72,7 +74,7 @@ const s3_upload = async (imgName, imgDetails) => {
     console.log(`>> Image Uploaded to S3: ${imgName}`);
 };
 
-// Uploads Image ID to Redis
+// Uploads Image URL to Redis
 const redis_upload = async (imgName, data) => {
     try {
       const redisKey = imgName;
@@ -114,20 +116,21 @@ router.post("/download", async (req, res) => {
     const input = (await axios.get(img, { responseType: "arraybuffer" })).data;
     const zip = new JSZip();
   
-    //Create random images in sharp library then add to zip
+    // Create 100 random images in sharp library then add to zip
+    // Note - this is for scaling testing - imitating multiple users downloading at the same time
     for (let i = 0; i < 100; i++) {
       const img = sharp(input).resize(random4000(), random4000()).jpeg();
       zip.file(`image${i + 1}.jpeg`, await img.toBuffer());
     }
   
-    //Create zip file
+    // Create zip file
     const content = await zip.generateAsync({ type: "nodebuffer" });
   
-    //Send zip file to client
+    // Send zip file to client
     res.send(content);
   });
 
-//Gets images URL from s3 if not in Redis already
+// Gets images URL from s3 if not in Redis already
 (async (prefix) => {
     let isTruncated = true;
     let marker;
@@ -137,6 +140,7 @@ router.post("/download", async (req, res) => {
         let params = { Bucket: bucketName };
         if (prefix) params.Prefix = prefix;
         if (marker) params.Marker = marker;
+      
         try {
             const response = await s3.listObjects(params).promise();
             response.Contents.forEach(async item => {
@@ -152,10 +156,12 @@ router.post("/download", async (req, res) => {
                     console.log("Key already in Redis");
                 }
             });
+          
             isTruncated = response.IsTruncated;
             if (isTruncated) {
                 marker = response.Contents.slice(-1)[0].Key;
             }
+          
         } catch(error) {
             console.log("Error in Bucket List Get");
             throw error;
@@ -163,11 +169,5 @@ router.post("/download", async (req, res) => {
     };
     console.log(">> Mass Image Upload Complete");
 })();
-
-// // Creates a Thumbnail of the Image
-// const thumbName = `${baseName}-thumbnail.jpeg`;
-// const thumbnailImage = sharp(imgBuffer).resize(100, 100);
-// console.log(thumbName);
-// console.log(imgBuffer);
 
 module.exports = router;
