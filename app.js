@@ -2,7 +2,6 @@
 const express = require('express');
 const app = express();
 const fs = require('fs');
-const responseTime = require('response-time');
 require('dotenv').config();
 const AWS = require('aws-sdk');
 const imagesRouter = require('./routes/images');
@@ -19,6 +18,7 @@ const bucketName = "tuton-bingham-a2-store";
 const s3 = new AWS.S3({ apiVersion: "2006-03-01" });
 (async () => {
   try {
+    // Creating bucket
     await s3.createBucket({ Bucket: bucketName }).promise();
     console.log(`>> Created Bucket: ${bucketName}`);
   } catch (error) {
@@ -29,7 +29,6 @@ const s3 = new AWS.S3({ apiVersion: "2006-03-01" });
       console.log(">> Bucket Accessed Successfully")
     }
   }
-
 })();
 
 // Home View
