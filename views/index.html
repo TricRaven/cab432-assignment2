@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+  
   <head>
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
@@ -16,8 +17,10 @@
       crossorigin="anonymous"
     />
   </head>
+  
   <!-- Main View -->
   <body>
+    
     <!-- Sharp Editor -->
     <div class="editor">
       <div class="toolbar">
@@ -58,20 +61,24 @@
             max="100"
           />
         </div>
+        
         <!-- Name Input -->
         <div>
           <div id="namingImage">
             Name of Image: 
             <input type="text" id="imageName" placeholder="Enter image name...">
           </div>
+          
           <!-- Upload Button -->
           <button onclick="upload()" id="upload">Upload Image</button>
         </div>
       </div>
+      
       <!-- Imported Image View -->
       <div class="image-area">
         <canvas id="canvas"></canvas>
       </div>
+      
       <!-- Uploaded Image Viewer -->
       <div id="uploaded-items">
         <h2>Uploaded images</h2>
@@ -136,6 +143,7 @@
               </button>
             </div>
           </div>
+          
         </div>
       </div>
     </div>
