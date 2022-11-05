@@ -28,10 +28,16 @@ router.get('/collect', async (req, res) => {
     // Get first 6 Entries from Redis
     var images = [];
     const keyList = await redisClient.keys('*');
-  
-    for (let i = 0; i < 6; i++) {
+    var listLength = 0
+    if (keyList.length < 6) {
+      var listLength = keyList.length;
+    } else {
+      listLength = 6;
+    }
+    for (let i = 0; i < listLength; i++) {
         var imageGroup = {};
-        const value = await redisClient.get(keyList[i]);
+        const imageKey = keyList[i];
+        const value = await redisClient.get(imageKey);
         imageGroup["nameKey"] = keyList[i]
         imageGroup["urlValue"] = value;
         images.push(imageGroup);
