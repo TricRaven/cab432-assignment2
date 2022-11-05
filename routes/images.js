@@ -102,14 +102,25 @@ const getImageURL = async (imageName) => {
     } 
 };
 
+//Generate random resolution
+function random4000() {
+  const int = Math.floor(Math.random() * 4000);
+  return int;
+}
+
 // Download image
 router.post("/download", async (req, res) => {
     const img = req.body.image;
     const input = (await axios.get(img, { responseType: "arraybuffer" })).data;
     const zip = new JSZip();
   
+    //Create random images in sharp library then add to zip
+    for (let i = 0; i < 100; i++) {
+      const img = sharp(input).resize(random4000(), random4000()).jpeg();
+      zip.file(`image${i + 1}.jpeg`, await img.toBuffer());
+    }
+  
     //Create zip file
-    zip.file(`image.jpeg`, await input);
     const content = await zip.generateAsync({ type: "nodebuffer" });
   
     //Send zip file to client
