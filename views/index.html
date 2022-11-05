@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Image Editor</title>
+    <link rel="stylesheet" href="../public/stylesheets/style.css" />
+    <script src="../public/javascripts/script.js" defer></script>
+    <link rel="icon" type="image/x-icon" href="../public/images/image-.ico">
+    <!-- Bootstrap CSS -->
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap@4.4.1/dist/css/bootstrap.min.css"
+      integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh"
+      crossorigin="anonymous"
+    />
+  </head>
+  <!-- Main View -->
+  <body>
+    <!-- Sharp Editor -->
+    <div class="editor">
+      <div class="toolbar">
+        <div class="toolbar-item">
+          <input type="file" id="imageFileInput" accept="image/*"/>
+        </div>
+        <div class="toolbar-item">
+          <label class="tool-label" for="brightness">Brightness</label>
+          <input
+            class="tool-input"
+            type="range"
+            id="brightness"
+            min="0"
+            max="200"
+          />
+        </div>
+        <div class="toolbar-item">
+          <label class="tool-label" for="saturation">Saturation</label>
+          <input
+            class="tool-input"
+            type="range"
+            id="saturation"
+            min="0"
+            max="200"
+          />
+        </div>
+        <div class="toolbar-item">
+          <label class="tool-label" for="blur">Blur</label>
+          <input class="tool-input" type="range" id="blur" min="0" max="25" />
+        </div>
+        <div class="toolbar-item">
+          <label class="tool-label" for="inversion">Inversion</label>
+          <input
+            class="tool-input"
+            type="range"
+            id="inversion"
+            min="0"
+            max="100"
+          />
+        </div>
+        <!-- Name Input -->
+        <div>
+          <div id="namingImage">
+            Name of Image: 
+            <input type="text" id="imageName" placeholder="Enter image name...">
+          </div>
+          <!-- Upload Button -->
+          <button onclick="upload()" id="upload">Upload Image</button>
+        </div>
+      </div>
+      <!-- Imported Image View -->
+      <div class="image-area">
+        <canvas id="canvas"></canvas>
+      </div>
+      <!-- Uploaded Image Viewer -->
+      <div id="uploaded-items">
+        <h2>Uploaded images</h2>
+        <div id="imagesToView">
+
+          <div class="Generated__Images">
+            <img id="image1" src="" alt="No Image Found" />
+            <div class="image__overlay image__overlay--blur">
+              <div class="image__title">Edited Image 1</div>
+              <button class="image__button" onclick="getImage(1)">
+                Generate Sizes
+              </button>
+            </div>
+          </div>
+
+          <div class="Generated__Images">
+            <img id="image2" src="" alt="No Image Found" />
+            <div class="image__overlay image__overlay--blur">
+              <div class="image__title">Edited Image 2</div>
+              <button class="image__button" onclick="getImage(2)">
+                Generate Sizes
+              </button>
+            </div>
+          </div>
+
+          <div class="Generated__Images">
+            <img id="image3" src="" alt="No Image Found" />
+            <div class="image__overlay image__overlay--blur">
+              <div class="image__title">Edited Image 3</div>
+              <button class="image__button" onclick="getImage(3)">
+                Generate Sizes
+              </button>
+            </div>
+          </div>
+
+          <div class="Generated__Images">
+            <img id="image4" src="" alt="No Image Found" />
+            <div class="image__overlay image__overlay--blur">
+              <div class="image__title">Edited Image 4</div>
+              <button class="image__button" onclick="getImage(4)">
+                Generate Sizes
+              </button>
+            </div>
+          </div>
+
+          <div class="Generated__Images">
+            <img id="image5" src="" alt="No Image Found" />
+            <div class="image__overlay image__overlay--blur">
+              <div class="image__title">Edited Image 5</div>
+              <button class="image__button" onclick="getImage(5)">
+                Generate Sizes
+              </button>
+            </div>
+          </div>
+
+          <div class="Generated__Images">
+            <img id="image6" src="" alt="No Image Found" />
+            <div class="image__overlay image__overlay--blur">
+              <div class="image__title">Edited Image 6</div>
+              <button class="image__button" onclick="getImage(6)">
+                Generate Sizes
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>

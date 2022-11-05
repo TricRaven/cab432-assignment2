@@ -1,0 +1,15 @@
+This application was created for QUT CAB432 assessment purposes.
+By Jacob Tuton and James Bingham
+
+Before running the application locally:
+- Ensure the AWS credentials are up-to-date:  Location: ~/.aws/credentials
+- Ensure Redis is running:  
+    >> For Mac >> 'brew services start redis'
+    >> For Windows >> 'sudo service redis-server restart'
+    >> Mac Docs: https://redis.io/docs/getting-started/installation/install-redis-on-mac-os/
+    >> Windows Docs: https://redis.com/blog/redis-on-windows-10/ 
+
+Redis:
+- To access redis terminal: >> 'redis-cli'
+- To clear redis history: >> 'flushall'
+- To stop redis: Mac >> 'brew services stop redis'
